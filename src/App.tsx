@@ -15,9 +15,9 @@ const App = () => {
   const { isLoading } = useContext(StoreContext);
 
   return (
-    <main className="p-3 flex flex-col items-center">
+    <main className="p-4 sm:p-10 flex flex-col items-center">
       <TopNavigation />
-      <div className="flex flex-col w-300 mt-5">
+      <div className="flex flex-col w-full mt-5">
         <label htmlFor="name" className="text-sm font-semibold">
           Audience Name
           <span className="text-sm text-gray-400">(Optional)</span>
@@ -29,7 +29,7 @@ const App = () => {
           onChange={handleNameChange}
         />
       </div>
-      <div className="[&>textarea]:w-[49%] w-300 flex justify-between text-lg">
+      <div className="[&>textarea]:w-[100%] gap-2 w-full flex flex-col sm:flex-row justify-between text-lg">
         <textarea
           className="textarea textarea-primary resize-none min-h-60"
           value={userFeedback}
@@ -44,7 +44,7 @@ const App = () => {
         />
       </div>
       <button
-        className="btn btn-success mt-3 w-300 text-white text-lg"
+        className="btn btn-success mt-3 w-full text-white text-lg"
         onClick={handleGenerateFeedback}
         disabled={isLoading}
       >
