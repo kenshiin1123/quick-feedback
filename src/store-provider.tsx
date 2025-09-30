@@ -120,13 +120,7 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const handleGenerateFeedback = async () => {
     setIsLoading(true);
     try {
-      const payload = {
-        settings,
-        name,
-        userFeedback,
-      };
-
-      const response = await generateFeedback(payload);
+      const response = await generateFeedback({ settings, userFeedback, name });
       setAIFeedback(response.text || "");
     } finally {
       setIsLoading(false);
