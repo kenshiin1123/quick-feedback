@@ -16,11 +16,13 @@ const initialGlobalSettings = {
 };
 
 const tone = [
-  "Professional",
-  "Casual/Friendly",
-  "Supportive",
-  "Constructive",
-  "Neutral",
+  "Professional", // Formal, businesslike, polished language
+  "Casual", // Friendly, relaxed, approachable
+  "Encouraging", // Positive, motivating, supportive
+  "Constructive", // Focused on improvement, clear guidance
+  "Direct", // Straightforward, no sugarcoating
+  "Strict", // Firm, high-expectation, disciplined
+  "Neutral", // Objective, factual, balanced
 ];
 
 const englishLevel = [
@@ -39,9 +41,17 @@ const focusOfFeedback = [
   "Clarity & Organization",
 ];
 
-const length = ["Short", "Medium", "Detailed"];
+const length = ["Short", "Medium", "Detailed", "Flexible / Expandable"];
 
 const format = ["Paragraph", "Bullet Points", "One-liner"];
+
+// const performance = [
+//   "Excellent",
+//   "Good",
+//   "Average",
+//   "Needs Improvement",
+//   "Not Applicable",
+// ];
 
 const initialSettings = {
   Audience: audience[0],
@@ -50,6 +60,7 @@ const initialSettings = {
   "Focus of Feedback": focusOfFeedback[0],
   Length: length[0],
   Format: format[0],
+  // Performance: performance[0],
 };
 
 export {
@@ -59,6 +70,7 @@ export {
   focusOfFeedback,
   length,
   format,
+  // performance,
   initialSettings,
 };
 

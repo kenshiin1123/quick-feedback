@@ -14,9 +14,11 @@ export type EnglishLevel =
   | "Mixed Levels";
 export type Tone =
   | "Professional"
-  | "Casual/Friendly"
-  | "Supportive"
+  | "Casual"
+  | "Encouraging"
   | "Constructive"
+  | "Direct"
+  | "Strict"
   | "Neutral";
 export type FocusOfFeedback =
   | "Grammar & Language Use"
@@ -39,7 +41,7 @@ export type Settings = {
 const DEFAULT_SETTINGS: Settings = {
   Audience: "All Ages",
   "English Level": "Mixed Levels",
-  Tone: "Supportive",
+  Tone: "Encouraging",
   "Focus of Feedback": "Clarity & Organization",
   Length: "Medium",
   Format: "Paragraph",
@@ -110,7 +112,7 @@ export const generateFeedback = async ({
     "- Use the requested Format (Paragraph, Bullet Points, or One-liner). If Bullet Points is chosen, provide 2–4 concise bullets.",
     "- Emphasize the 'Focus of Feedback' as the primary area to improve (but do not call it 'Focus of Feedback' — integrate naturally).",
     "",
-    "Tone guidance: follow the Tone setting strictly (Professional, Casual/Friendly, Supportive, Constructive, or Neutral).",
+    "Tone guidance: follow the Tone setting strictly (Professional, Casual, Encouraging, Constructive, Direct, Strict, or Neutral).",
     "",
     "Now generate the feedback:",
   ].join("\n");

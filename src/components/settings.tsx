@@ -24,6 +24,7 @@ const Settings: React.FC<{ className?: string }> = ({ className }) => {
         <CheckboxList title="Focus of Feedback" options={focusOfFeedback} />
         <RadioList title="Length" options={length} customInput />
         <RadioList title="Format" options={format} />
+        {/* <RadioList title="Performance" options={performance} /> */}
       </section>
     </div>
   );
