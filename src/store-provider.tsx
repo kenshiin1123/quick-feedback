@@ -11,6 +11,8 @@ const audience = ["Child", "Teenager", "Adult", "Senior", "All Ages"];
 
 const initialGlobalSettings = {
   "Feedback Options On Top": false,
+  "Custom Prompt": true,
+  "Audience Name": true,
 };
 
 const tone = [
@@ -99,7 +101,13 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [globalSettings, setGlobalSettings] = useState(() => {
     return {
       "Feedback Options On Top": stringToBoolean(
-        localStorage.getItem("Feedback Options On Top") || "0"
+        localStorage.getItem("Feedback Options On Top") || "1"
+      ),
+      "Custom Prompt": stringToBoolean(
+        localStorage.getItem("Custom Prompt") || "1"
+      ),
+      "Audience Name": stringToBoolean(
+        localStorage.getItem("Audience Name") || "1"
       ),
     };
   });
