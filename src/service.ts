@@ -19,7 +19,10 @@ const generateFeedback = async ({
     ${JSON.stringify(settings)} 
 
     Additional user prompt to improve the feedback message: (userFeedback): 
-    "${userFeedback}"`,
+    "${userFeedback}"
+    
+    Note that the Focus of Feedback is what the Audience lack.
+    `,
   });
 
   return response;

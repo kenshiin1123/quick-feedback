@@ -6,6 +6,7 @@ import {
   length,
   format,
 } from "../store-provider";
+import CheckboxList from "./checkbox-list";
 import RadioList from "./radio-list";
 
 const Settings: React.FC<{}> = () => {
@@ -15,8 +16,8 @@ const Settings: React.FC<{}> = () => {
         <RadioList title="Audience" options={audience} />
         <RadioList title="English Level" options={englishLevel} />
         <RadioList title="Tone" options={tone} />
-        <RadioList title="Focus of Feedback" options={focusOfFeedback} />
-        <RadioList title="Length" options={length} />
+        <CheckboxList title="Focus of Feedback" options={focusOfFeedback} />
+        <RadioList title="Length" options={length} customInput />
         <RadioList title="Format" options={format} />
       </section>
     </div>

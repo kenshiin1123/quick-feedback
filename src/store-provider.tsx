@@ -1,7 +1,6 @@
 import {
   createContext,
   useState,
-  useEffect,
   type ChangeEvent,
   type PropsWithChildren,
 } from "react";
@@ -74,6 +73,9 @@ export const StoreContext = createContext({
   handleUserFeedbackChange: (event: ChangeEvent<HTMLTextAreaElement>) => {
     event;
   },
+  handleCheckboxChange: (e: ChangeEvent<HTMLInputElement>) => {
+    e;
+  },
 });
 
 const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -84,6 +86,7 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }, {} as SettingsType);
     return storedSettings;
   });
+
   const [name, setName] = useState(() => localStorage.getItem("name") || "");
   const [userFeedback, setUserFeedback] = useState(
     () => localStorage.getItem("userFeedback") || ""
@@ -91,18 +94,37 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [aiFeedback, setAIFeedback] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    Object.entries(settings).forEach(([key, value]) => {
-      if (localStorage.getItem(key) === null) {
-        localStorage.setItem(key, value);
-      }
-    });
-  }, [settings]);
-
   const handleSettingsChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setSettings({ ...settings, [name]: value });
     localStorage.setItem(name, value);
+  };
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+
+    setSettings((prevSettings) => {
+      let currentValues = prevSettings["Focus of Feedback"]
+        ? prevSettings["Focus of Feedback"].split(",")
+        : [];
+
+      if (checked) {
+        // Add the value if it's not already there
+        if (!currentValues.includes(value)) {
+          currentValues.push(value);
+        }
+      } else {
+        // Remove the value
+        currentValues = currentValues.filter((item) => item !== value);
+      }
+
+      const finalValue = currentValues.join(",");
+      localStorage.setItem("Focus of Feedback", finalValue);
+
+      return {
+        ...prevSettings,
+        ["Focus of Feedback"]: finalValue,
+      };
+    });
   };
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -139,6 +161,7 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
         handleGenerateFeedback,
         handleNameChange,
         handleUserFeedbackChange,
+        handleCheckboxChange,
       }}
     >
       {children}

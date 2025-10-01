@@ -2,6 +2,7 @@ import TopNavigation from "./components/top-navigation";
 import Settings from "./components/settings";
 import { useContext } from "react";
 import { StoreContext } from "./store-provider";
+import Footer from "./components/footer";
 
 const App = () => {
   const {
@@ -15,7 +16,7 @@ const App = () => {
   const { isLoading } = useContext(StoreContext);
 
   return (
-    <main className="p-4 sm:p-10 flex flex-col items-center">
+    <main className="p-4 sm:pb-3 flex flex-col items-center">
       <TopNavigation />
       <div className="flex flex-col w-full mt-5">
         <label htmlFor="name" className="text-sm font-semibold">
@@ -55,6 +56,7 @@ const App = () => {
         )}
       </button>
       <Settings />
+      <Footer />
     </main>
   );
 };

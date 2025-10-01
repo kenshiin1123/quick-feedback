@@ -6,7 +6,8 @@ const RadioList: React.FC<{
   title: string;
   options: string[];
   className?: string;
-}> = ({ title, options, className }) => {
+  customInput?: boolean;
+}> = ({ title, options, className, customInput = false }) => {
   const { handleSettingsChange: onSettingsChange, settings } =
     useContext(StoreContext);
   const selectedValue = settings[title as keyof typeof settings];
@@ -36,6 +37,25 @@ const RadioList: React.FC<{
             </li>
           );
         })}
+        {customInput && (
+          <li className={"flex gap-1 flex-col"} key={title}>
+            <label
+              htmlFor={`${title}-custom`}
+              className="label text-primary text-lg font-semibold select-none h-full w-full"
+            >
+              {`Custom ${title}`}
+            </label>
+            <input
+              type="text"
+              className="input input-primary input-sm"
+              onChange={onSettingsChange}
+              value={options.includes(selectedValue) ? "" : settings.Length}
+              id={`${title}-custom`}
+              name={title}
+              checked={selectedValue === `${title}-custom`}
+            />
+          </li>
+        )}
       </ul>
     </div>
   );
