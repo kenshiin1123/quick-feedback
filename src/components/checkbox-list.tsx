@@ -8,7 +8,6 @@ const CheckboxList: React.FC<{
   className?: string;
 }> = ({ title, options, className }) => {
   const { handleCheckboxChange, settings } = useContext(StoreContext);
-  console.log(settings);
   return (
     <div className="bg-primary-content rounded p-4">
       <h2 className="text-xl text-primary font-bold mb-3">{title}</h2>

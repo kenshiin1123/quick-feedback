@@ -1,7 +1,11 @@
-const TopNavigation = () => {
+import { cn } from "../cn";
+import SettingsModal from "./settings-modal";
+
+const TopNavigation: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className={cn(`navbar bg-base-100 shadow-sm ${className}`)}>
       <a className="btn btn-ghost text-xl">Quick Feedback</a>
+      <SettingsModal />
     </div>
   );
 };

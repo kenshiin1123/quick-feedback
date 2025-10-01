@@ -5,8 +5,13 @@ import {
   type PropsWithChildren,
 } from "react";
 import { generateFeedback } from "./service";
+import stringToBoolean from "./stringToBoolean";
 
 const audience = ["Child", "Teenager", "Adult", "Senior", "All Ages"];
+
+const initialGlobalSettings = {
+  "Feedback Options On Top": false,
+};
 
 const tone = [
   "Professional",
@@ -73,6 +78,10 @@ export const StoreContext = createContext({
   handleUserFeedbackChange: (event: ChangeEvent<HTMLTextAreaElement>) => {
     event;
   },
+  globalSettings: initialGlobalSettings,
+  handleGlobalSettingsChange: (e: ChangeEvent<HTMLInputElement>) => {
+    e;
+  },
   handleCheckboxChange: (e: ChangeEvent<HTMLInputElement>) => {
     e;
   },
@@ -80,11 +89,19 @@ export const StoreContext = createContext({
 
 const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [settings, setSettings] = useState(() => {
-    const storedSettings = Object.keys(initialSettings).reduce((acc, key) => {
-      const storedValue = localStorage.getItem(key);
-      return { ...acc, [key]: storedValue };
-    }, {} as SettingsType);
+    const storedSettings: SettingsType = { ...initialSettings };
+    for (const key in initialSettings) {
+      storedSettings[key as keyof SettingsType] =
+        localStorage.getItem(key) || initialSettings[key as keyof SettingsType];
+    }
     return storedSettings;
+  });
+  const [globalSettings, setGlobalSettings] = useState(() => {
+    return {
+      "Feedback Options On Top": stringToBoolean(
+        localStorage.getItem("Feedback Options On Top") || "0"
+      ),
+    };
   });
 
   const [name, setName] = useState(() => localStorage.getItem("name") || "");
@@ -99,6 +116,7 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
     setSettings({ ...settings, [name]: value });
     localStorage.setItem(name, value);
   };
+
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
@@ -149,6 +167,19 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const handleGlobalSettingsChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const name = event.currentTarget.name;
+    const checked = event.currentTarget.checked;
+
+    setGlobalSettings((prevGlobalSettings) => {
+      return {
+        ...prevGlobalSettings,
+        [name]: checked,
+      };
+    });
+    localStorage.setItem(name, String(checked));
+  };
+
   return (
     <StoreContext.Provider
       value={{
@@ -162,6 +193,8 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
         handleNameChange,
         handleUserFeedbackChange,
         handleCheckboxChange,
+        globalSettings,
+        handleGlobalSettingsChange,
       }}
     >
       {children}

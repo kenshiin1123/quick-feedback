@@ -1,6 +1,8 @@
-const Footer = () => {
+const Footer: React.FC<{ className?: string }> = ({ className }) => {
   return (
-    <footer className="footer footer-center p-4 bg-base-300 text-base-content mt-10">
+    <footer
+      className={`footer footer-center p-4 bg-base-300 text-base-content mt-10 ${className}`}
+    >
       <aside>
         <p>
           Developed by Kenshin —
