@@ -4,7 +4,7 @@ import {
   type ChangeEvent,
   type PropsWithChildren,
 } from "react";
-import { generateFeedback } from "./service";
+import { generateFeedback, type Settings } from "./service";
 import stringToBoolean from "./stringToBoolean";
 
 const audience = ["Child", "Teenager", "Adult", "Senior", "All Ages"];
@@ -168,8 +168,17 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const handleGenerateFeedback = async () => {
     setIsLoading(true);
     try {
-      const response = await generateFeedback({ settings, userFeedback, name });
-      setAIFeedback(response.text || "");
+      const result = await generateFeedback({
+        settings: settings as Partial<Settings>, // can be partial
+        userFeedback,
+        name: globalSettings["Audience Name"] ? name : "",
+      });
+      setAIFeedback(result);
+    } catch (err) {
+      console.error("generateFeedback error:", err);
+      setAIFeedback(
+        "Sorry — I couldn't generate feedback right now. Try again."
+      );
     } finally {
       setIsLoading(false);
     }
