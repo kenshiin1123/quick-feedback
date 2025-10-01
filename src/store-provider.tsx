@@ -16,13 +16,13 @@ const initialGlobalSettings = {
 };
 
 const tone = [
-  "Professional", // Formal, businesslike, polished language
   "Casual", // Friendly, relaxed, approachable
-  "Encouraging", // Positive, motivating, supportive
   "Constructive", // Focused on improvement, clear guidance
   "Direct", // Straightforward, no sugarcoating
-  "Strict", // Firm, high-expectation, disciplined
+  "Encouraging", // Positive, motivating, supportive
   "Neutral", // Objective, factual, balanced
+  "Professional", // Formal, businesslike, polished language
+  "Strict", // Firm, high-expectation, disciplined
 ];
 
 const englishLevel = [
@@ -33,31 +33,29 @@ const englishLevel = [
   "Mixed Levels",
 ];
 
-const focusOfFeedback = [
-  "Grammar & Language Use",
+const needsImprovement = [
+  "Grammar & Language",
   "Content & Ideas",
-  "Effort & Improvement",
-  "Accuracy & Details",
   "Clarity & Organization",
+  "Accuracy & Detail",
+  "Effort & Consistency",
+  "Critical Thinking",
+  "Focus",
+  "Participation",
+  "Following Instructions",
+  "Behavior",
+  "None / Overall Good",
 ];
 
 const length = ["Short", "Medium", "Detailed", "Flexible / Expandable"];
 
 const format = ["Paragraph", "Bullet Points", "One-liner"];
 
-// const performance = [
-//   "Excellent",
-//   "Good",
-//   "Average",
-//   "Needs Improvement",
-//   "Not Applicable",
-// ];
-
 const initialSettings = {
   Audience: audience[0],
   "English Level": englishLevel[0],
   Tone: tone[0],
-  "Focus of Feedback": focusOfFeedback[0],
+  "Needs Improvement": "",
   Length: length[0],
   Format: format[0],
   // Performance: performance[0],
@@ -67,7 +65,7 @@ export {
   audience,
   tone,
   englishLevel,
-  focusOfFeedback,
+  needsImprovement,
   length,
   format,
   // performance,
@@ -99,6 +97,7 @@ export const StoreContext = createContext({
   handleCheckboxChange: (e: ChangeEvent<HTMLInputElement>) => {
     e;
   },
+  handleClearCheckBox: () => {},
 });
 
 const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -141,8 +140,8 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const { value, checked } = e.target;
 
     setSettings((prevSettings) => {
-      let currentValues = prevSettings["Focus of Feedback"]
-        ? prevSettings["Focus of Feedback"].split(",")
+      let currentValues = prevSettings["Needs Improvement"]
+        ? prevSettings["Needs Improvement"].split(",")
         : [];
 
       if (checked) {
@@ -156,13 +155,21 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
       }
 
       const finalValue = currentValues.join(",");
-      localStorage.setItem("Focus of Feedback", finalValue);
+      localStorage.setItem("Needs Improvement", finalValue);
 
       return {
         ...prevSettings,
-        ["Focus of Feedback"]: finalValue,
+        ["Needs Improvement"]: finalValue,
       };
     });
+  };
+
+  const handleClearCheckBox = () => {
+    setSettings((prevSettings) => {
+      return { ...prevSettings, "Needs Improvement": "" };
+    });
+
+    localStorage.removeItem("Needs Improvement");
   };
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +189,7 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
     try {
       const result = await generateFeedback({
         settings: settings as Partial<Settings>, // can be partial
-        userFeedback,
+        userFeedback: globalSettings["Custom Prompt"] ? userFeedback : "",
         name: globalSettings["Audience Name"] ? name : "",
       });
       setAIFeedback(result);
@@ -224,6 +231,7 @@ const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
         handleCheckboxChange,
         globalSettings,
         handleGlobalSettingsChange,
+        handleClearCheckBox,
       }}
     >
       {children}
